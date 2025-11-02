@@ -1,6 +1,6 @@
 <# 
-ISTA-VM-Toolkit.ps1 — Single script to APPLY or REVERT BMW ISTA VM optimizations
-Ultra-compatible: no 'param' / 'CmdletBinding' — manual $args parsing only.
+ISTA-VM-Toolkit.ps1 - Single script to APPLY or REVERT BMW ISTA VM optimizations
+Ultra-compatible: no 'param' / 'CmdletBinding' - manual $args parsing only.
 
 USAGE (Run as Administrator):
   .\ISTA-VM-Toolkit.ps1 -help
@@ -62,7 +62,7 @@ for ($i=0; $i -lt $args.Count; $i++) {
 }
 
 if ($ShowHelp -or (-not $DoAll -and -not $DoServices -and -not $DoUI -and -not $DoDefender -and -not $DoRemoveStore -and -not $AutoLoginUser -and -not $RemoveAutoLogin)) {
-  Write-Host "ISTA-VM-Toolkit.ps1 — Help" -ForegroundColor Cyan
+  Write-Host "ISTA-VM-Toolkit.ps1 - Help" -ForegroundColor Cyan
   Write-Host "  -all | -services | -ui | -defenderhard | -removestore | -autologin u p | -noautologin | -revert | -frombackup csv | -backupdir path | -reportonly | -norestart"
   Write-Host "  Examples:"
   Write-Host "    .\ISTA-VM-Toolkit.ps1 -all"
