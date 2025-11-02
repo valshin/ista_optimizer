@@ -117,11 +117,15 @@ $Keep = @(
 $DisableTargets = @(
   "SysMain","WSearch","DiagTrack","dmwappushservice","DoSvc","RetailDemo",
   "WMPNetworkSvc","XblAuthManager","XblGameSave","XboxGipSvc","XboxNetApiSvc",
-  "Fax","MapsBroker","RemoteRegistry","WbioSrvc","seclogon","lfsvc","WiaRpc",
+  "Fax","MapsBroker","RemoteRegistry","WbioSrvc","lfsvc","WiaRpc",
   "SharedAccess","icssvc","PhoneSvc","WalletService","SmsRouter","TabletInputService","FrameServer",
-  "SSDPSRV","upnphost","WebClient","diagnosticshub.standardcollector.service","PimIndexMaintenanceSvc"
+  "SSDPSRV","upnphost","WebClient","diagnosticshub.standardcollector.service","PimIndexMaintenanceSvc",
+  # New: trim printing and bluetooth stack by default
+  "Spooler","bthserv","BTAGService","BthHFSrv","BthAvctpSvc","BluetoothUserService"
 )
-$ManualTargets = @("BITS","WerSvc","Themes","SCardSvr","TermService","TrkWks","SENS","SensorService","LanmanServer")
+$ManualTargets = @("BITS","WerSvc","Themes","SCardSvr","TermService","TrkWks","SENS","SensorService","LanmanServer",
+  # Move Secondary Logon to Manual instead of Disabled for fewer surprises
+  "seclogon")
 
 # -------------------- functional blocks --------------------
 function Resolve-Names([string[]]$names){

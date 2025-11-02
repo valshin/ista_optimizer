@@ -72,3 +72,25 @@ administrative privileges and prints the same step breakdown.
   experimentation.
 - When distributing the script, maintain ASCII encoding to avoid PowerShell
   parser issues caused by smart quotes or non-ASCII punctuation.
+
+## Defaults Adjusted for Performance
+
+To keep the VM lightweight, the script by default:
+- Disables printing: `Spooler`.
+- Disables Bluetooth stack: `bthserv`, `BTAGService`, `BthHFSrv`, `BthAvctpSvc`, and `BluetoothUserService*` (per-user variant).
+- Moves Secondary Logon (`seclogon`) to Manual instead of Disabled to reduce surprises with installers while still minimizing footprint.
+
+If you need these back:
+- Printing: `Set-Service Spooler -StartupType Automatic; Start-Service Spooler`
+- Bluetooth: `Set-Service bthserv -StartupType Manual; Start-Service bthserv` (and start other Bluetooth services as needed)
+- Secondary Logon: `Set-Service seclogon -StartupType Automatic; Start-Service seclogon`
+
+## ENET Dongle Networking Notes
+
+ISTA over ENET works well in a VM when the Ethernet adapter is presented directly to the guest.
+
+- Hypervisor: Prefer USB pass-through of the ENET USB–Ethernet dongle to the VM, or pass a dedicated PCIe/USB NIC if available. Avoid bridging through the host’s ICS when possible.
+- Adapter config in guest: Allow DHCP/APIPA on the ENET adapter. Many ENET setups use link-local 169.254.x.x automatically. If necessary, set static `169.254.1.10/16` on the ENET adapter with no gateway.
+- Firewall: Keep the network profile Private and allow ISTA/diagnostic tools inbound on the ENET adapter if firewall is enabled. The script does not change the firewall service.
+- Discovery: ISTA/ICOM discovery often relies on mDNS/Bonjour. Ensure Apple Bonjour (mDNSResponder) or equivalent is installed/running in the guest if required by your ISTA build.
+- What we disable: UPnP (`SSDPSRV`, `upnphost`) and ICS (`SharedAccess`, `icssvc`) are disabled by default—they are not required for ENET and help reduce overhead. If you rely on ICS inside the guest for a special setup, re-enable them or run the script with just the blocks you need.
